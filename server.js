@@ -1,59 +1,60 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Required to allow your frontend to talk to this backend
+const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
 
 // --- MIDDLEWARE ---
-app.use(express.json());
-app.use(cors()); // This allows requests from any origin (like your local frontend)
+app.use(cors()); // Allows your frontend to talk to this backend
+app.use(express.json()); // Allows the server to read JSON data sent from your form
+app.use(express.static(__dirname)); // Serves your index.html, styles.css, and app.js automatically
 
 // --- MONGODB CONNECTION ---
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('✅ Connected to MongoDB Atlas (Cloud)!'))
-    .catch(err => console.error('❌ MongoDB connection error:', err));
+    .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
-// --- DATA SCHEMA & MODEL ---
+// --- DATA MODEL ---
 const waitlistSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
-    registeredAt: { type: Date, default: Date.now }
+    timestamp: { type: Date, default: Date.now }
 });
-
 const Waitlist = mongoose.model('Waitlist', waitlistSchema);
 
 // --- ROUTES ---
 
-// 1. Home Route (Fixes the "Cannot GET /" error)
+// 1. Home Route: Serves your actual website (UI)
 app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// 2. Success Check Route (Optional for debugging)
+app.get('/status', (req, res) => {
     res.send('🚀 VertaSkill API is live and running successfully!');
 });
 
-// 2. Waitlist Registration Route
+// 3. Waitlist Registration Route
 app.post('/api/waitlist', async (req, res) => {
     try {
         const { email } = req.body;
-
-        // Check if email already exists
-        const existingUser = await Waitlist.findOne({ email });
-        if (existingUser) {
-            // Find position (count of users registered before or with this user)
-            const position = await Waitlist.countDocuments({ registeredAt: { $lte: existingUser.registeredAt } });
-            return res.status(409).json({ message: 'Email already registered', position });
-        }
-
-        // Create new registration
+        
+        // Create and save new user
         const newUser = new Waitlist({ email });
         await newUser.save();
 
         // Get total count for waitlist position
         const totalCount = await Waitlist.countDocuments();
-        
-        res.status(201).json({ 
-            message: 'Successfully added to waitlist', 
-            position: totalCount 
+
+        res.status(201).json({
+            message: 'Successfully added to waitlist',
+            position: totalCount
         });
     } catch (error) {
+        if (error.code === 11000) {
+            return res.status(400).json({ message: 'This email is already on the waitlist!' });
+        }
         console.error('Registration error:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -63,5 +64,5 @@ app.post('/api/waitlist', async (req, res) => {
 // Use Render's dynamic port or default to 3000
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Secure Production Server running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
