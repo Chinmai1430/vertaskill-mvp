@@ -223,7 +223,7 @@ nav {
 
 /* --- TOAST NOTIFICATION STYLES --- */
 .toast-notification {
-    position: fixed; top: 30px; right: -400px; background: rgba(15, 23, 42, 0.95);
+    position: fixed; top: 30px; right: -100vw; background: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(12px); border: 1px solid var(--border-color); color: #f8fafc;
     padding: 16px 24px; border-radius: 12px; display: flex; align-items: center; gap: 14px;
     box-shadow: 0 15px 35px -5px rgba(0,0,0,0.6), 0 0 20px rgba(16, 185, 129, 0.15);
