@@ -1,20 +1,19 @@
-const nodemailer = require('nodemailer');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
-// Force Node to use IPv4 to fix Render's ENETUNREACH email bug
-const dns = require('dns');
-dns.setDefaultResultOrder('ipv4first');
+// Initialize Resend API
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const app = express();
 
 // --- MIDDLEWARE ---
-app.use(cors()); // Allows your frontend to talk to this backend
-app.use(express.json()); // Allows the server to read JSON data sent from your form
-app.use(express.static(__dirname)); // Serves your index.html, styles.css, and app.js automatically
+app.use(cors()); 
+app.use(express.json()); 
+app.use(express.static(__dirname)); 
 
 // --- MONGODB CONNECTION ---
 mongoose.connect(process.env.MONGO_URI)
@@ -30,12 +29,12 @@ const Waitlist = mongoose.model('Waitlist', waitlistSchema);
 
 // --- ROUTES ---
 
-// 1. Home Route: Serves your actual website (UI)
+// 1. Home Route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// 2. Success Check Route (Optional for debugging)
+// 2. Success Check Route
 app.get('/status', (req, res) => {
     res.send('🚀 VertaSkill API is live and running successfully!');
 });
@@ -52,22 +51,13 @@ app.post('/api/waitlist', async (req, res) => {
         // Get total count for waitlist position
         const totalCount = await Waitlist.countDocuments();
 
-        // --- AUTOMATED WELCOME EMAIL ---
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true, // Forces a secure connection
-            auth: {
-                user: process.env.EMAIL_USER, 
-                pass: process.env.EMAIL_PASS  
-            }
-        });
-
-        const mailOptions = {
-            from: `"VertaSkill" <${process.env.EMAIL_USER}>`,
-            to: email, 
-            subject: 'Welcome to VertaSkill | Your Waitlist Status',
-            html: `
+        // --- BYPASS FIREWALL: RESEND API ---
+        try {
+            await resend.emails.send({
+                from: 'VertaSkill <onboarding@resend.dev>', // Keep this exact email! It's Resend's free testing address.
+                to: email,
+                subject: 'Welcome to VertaSkill | Your Waitlist Status',
+                html: `
                 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #1e293b; border-radius: 8px; background-color: #0f172a; color: #cbd5e1;">
                     <h2 style="color: #38bdf8; border-bottom: 1px solid #1e293b; padding-bottom: 15px; margin-bottom: 20px; font-weight: 600; letter-spacing: 0.5px;">VertaSkill</h2>
                     
@@ -83,20 +73,15 @@ app.post('/api/waitlist', async (req, res) => {
                     <p style="font-size: 16px; line-height: 1.6; color: #f8fafc;">Keep building,<br><strong>The VertaSkill Team</strong></p>
                     
                     <hr style="border-top: 1px solid #1e293b; margin: 30px 0;">
-                    <p style="font-size: 12px; color: #475569; text-align: center;">You are receiving this email because you registered for the VertaSkill waitlist. If you have any questions, simply reply to this email.</p>
+                    <p style="font-size: 12px; color: #475569; text-align: center;">You are receiving this email because you registered for the VertaSkill waitlist.</p>
                 </div>
-            `
-        };
-
-        // Send the email silently in the background
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error("❌ Email error: ", error);
-            } else {
-                console.log("✅ Welcome email sent to: " + email);
-            }
-        });
-        // --------------------------------
+                `
+            });
+            console.log("✅ API Email sent successfully to: " + email);
+        } catch (emailError) {
+            console.error("❌ Resend API Error:", emailError);
+        }
+        // ------------------------------------
 
         res.status(201).json({
             message: 'Successfully added to waitlist',
@@ -112,7 +97,6 @@ app.post('/api/waitlist', async (req, res) => {
 });
 
 // --- SERVER START ---
-// Use Render's dynamic port or default to 3000
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
