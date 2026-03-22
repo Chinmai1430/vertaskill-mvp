@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
         paths = []; dataPackets = [];
         
         // FIX 1: Dynamically scale lines! Desktop gets ~90 lines, mobile gets ~20.
-        let numLines = Math.floor(window.innerWidth / 20); 
+        let numLines = Math.floor(window.innerWidth / 50); 
         
         for(let i = 0; i < numLines; i++) {
             let x = Math.random() * width, y = Math.random() * height;
