@@ -452,51 +452,44 @@ nav {
         display: none !important;
     }
 
-    /* 6. ADVANCED FLEX-ORDERING FOR SHOWCASE SECTIONS */
+    /* 6. TIGHTENED FLEX-ORDERING FOR SHOWCASE SECTIONS */
     .showcase-row, .showcase-row.reverse {
         display: flex !important;
         flex-direction: column !important;
         margin-bottom: 60px !important;
         padding: 0 10px !important;
+        gap: 0 !important; /* Kills the double-spacing glitch */
     }
     
-    /* "Breaks" the text container so we can reorder individual items */
-    .showcase-text {
-        display: contents !important; 
-    }
+    .showcase-text { display: contents !important; }
     
-    /* Order 1: The Badge */
     .showcase-text .feature-pill { 
         order: 1 !important; 
-        margin-bottom: 15px !important; 
+        margin-bottom: 8px !important; /* Tighter gap below badge */
         align-self: flex-start !important; 
     }
     
-    /* Order 2: The Heading */
     .showcase-text h3 { 
         order: 2 !important; 
         margin-top: 0 !important; 
-        margin-bottom: 25px !important; 
+        margin-bottom: 15px !important; /* Tighter gap above terminal */
         text-align: left !important; 
     }
     
-    /* Order 3: The Terminal Picture */
     .showcase-visual { 
         order: 3 !important; 
         width: 100% !important; 
         max-width: 100% !important; 
-        margin-bottom: 25px !important; 
+        margin-bottom: 15px !important; /* Tighter gap below terminal */
     }
     
-    /* Order 4: The Explanation */
     .showcase-text p { 
         order: 4 !important; 
         text-align: left !important; 
         margin-bottom: 25px !important; 
     }
     
-    /* Order 5: The Button (if it exists) */
-    .showcase-text button { 
+    .showcase-text button, .showcase-text .feature-waitlist-btn { 
         order: 5 !important; 
         align-self: flex-start !important; 
     }
