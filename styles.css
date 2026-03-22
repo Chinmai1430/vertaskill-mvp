@@ -418,22 +418,22 @@ nav {
     .verta-icon-hd { height: 50px !important; width: 45px !important; margin-right: -5px !important; }
     nav { padding: 15px 24px !important; }
 
-    /* 2. Premium "Breathable" Spacing */
+    /* 2. Premium "Breathable" Spacing (Reduced bottom gap) */
     .hero { 
-        padding: 120px 24px 60px !important; 
+        padding: 110px 24px 20px !important; /* Pulled bottom up */
         box-sizing: border-box !important;
     }
     .hero h1 { font-size: 1.9rem !important; line-height: 1.25 !important; margin-bottom: 20px !important; }
-    .hero p { font-size: 1.05rem !important; line-height: 1.7 !important; margin-bottom: 40px !important; padding: 0 !important; }
+    .hero p { font-size: 1.05rem !important; line-height: 1.7 !important; margin-bottom: 25px !important; padding: 0 !important; }
 
     /* 3. Fix the Waitlist Box */
     .waitlist-module {
         flex-direction: column !important;
-        padding: 24px !important;
+        padding: 20px !important;
         width: 100% !important;
         max-width: 100% !important; 
         box-sizing: border-box !important;
-        margin: 0 auto !important;
+        margin: 0 auto 10px !important; /* Tighter gap below */
     }
     .waitlist-module input, .waitlist-module button {
         width: 100% !important;
@@ -445,7 +445,7 @@ nav {
     #registered-state { width: 100% !important; box-sizing: border-box !important; padding: 0 !important; }
     .success-msg-main { flex-direction: column !important; text-align: center !important; gap: 12px !important; font-size: 0.95rem !important; line-height: 1.5 !important; }
     .success-msg-main svg { margin-right: 0 !important; }
-    .jump-line-cta { width: 100% !important; box-sizing: border-box !important; margin-top: 20px !important; font-size: 0.9rem !important; line-height: 1.5 !important; }
+    .jump-line-cta { width: 100% !important; box-sizing: border-box !important; margin-top: 15px !important; font-size: 0.9rem !important; line-height: 1.5 !important; }
 
     /* 5. Nuke the error toast from stretching the screen */
     #toast-error:not(.show), #toast-success:not(.show), .toast-notification:not(.show) {
@@ -456,48 +456,36 @@ nav {
     .showcase-row, .showcase-row.reverse {
         display: flex !important;
         flex-direction: column !important;
-        margin-bottom: 60px !important;
+        margin-bottom: 45px !important; /* Tighter gap between rows */
         padding: 0 10px !important;
-        gap: 0 !important; /* Kills the double-spacing glitch */
+        gap: 0 !important; 
     }
     
     .showcase-text { display: contents !important; }
     
-    .showcase-text .feature-pill { 
-        order: 1 !important; 
-        margin-bottom: 8px !important; /* Tighter gap below badge */
-        align-self: flex-start !important; 
-    }
-    
-    .showcase-text h3 { 
-        order: 2 !important; 
-        margin-top: 0 !important; 
-        margin-bottom: 15px !important; /* Tighter gap above terminal */
-        text-align: left !important; 
-    }
-    
-    .showcase-visual { 
-        order: 3 !important; 
-        width: 100% !important; 
-        max-width: 100% !important; 
-        margin-bottom: 15px !important; /* Tighter gap below terminal */
-    }
-    
-    .showcase-text p { 
-        order: 4 !important; 
-        text-align: left !important; 
-        margin-bottom: 25px !important; 
-    }
-    
-    .showcase-text button, .showcase-text .feature-waitlist-btn { 
-        order: 5 !important; 
-        align-self: flex-start !important; 
-    }
+    .showcase-text .feature-pill { order: 1 !important; margin-bottom: 8px !important; align-self: flex-start !important; }
+    .showcase-text h3 { order: 2 !important; margin-top: 0 !important; margin-bottom: 15px !important; text-align: left !important; }
+    .showcase-visual { order: 3 !important; width: 100% !important; max-width: 100% !important; margin-bottom: 15px !important; }
+    .showcase-text p { order: 4 !important; text-align: left !important; margin-bottom: 25px !important; }
+    .showcase-text button, .showcase-text .feature-waitlist-btn { order: 5 !important; align-self: flex-start !important; }
 
-    .showcase-section, .features-wrapper {
+    /* 7. REDUCE MASSIVE DESKTOP GAPS GLOBALLY FOR MOBILE */
+    section {
+        padding-top: 40px !important;
+        padding-bottom: 40px !important;
+    }
+    .features-wrapper {
         padding-left: 20px !important;
         padding-right: 20px !important;
         box-sizing: border-box !important;
+        padding-top: 0 !important; 
+        margin-top: -15px !important; /* Pulls features up to hero */
+    }
+    .skills-graph-section {
+        padding-bottom: 20px !important; /* Pulls up the showcase section */
+    }
+    .showcase-section {
+        padding-top: 10px !important;
     }
 }
 
