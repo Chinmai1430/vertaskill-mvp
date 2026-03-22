@@ -62,7 +62,8 @@ app.post('/api/waitlist', async (req, res) => {
 
 // --- SERVER START ---
 // Use Render's dynamic port or default to 3000
+// Render requires the port to be dynamic and bound to 0.0.0.0
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
