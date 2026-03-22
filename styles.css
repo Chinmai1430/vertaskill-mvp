@@ -421,4 +421,10 @@ nav {
     max-width: 1000px; margin: 0 auto; padding: 80px 40px; background: rgba(15, 23, 42, 0.7);
     border: 1px solid rgba(51, 65, 85, 0.6); border-radius: 24px; text-align: center; backdrop-filter: blur(12px);
     position: relative; z-index: 20; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+
+    /* Force hide toasts on all screens unless triggered */
+#toast-success:not(.show),
+#toast-error:not(.show) {
+    display: none !important;
+}
 }
