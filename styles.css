@@ -412,50 +412,69 @@ nav {
 .m-badge { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; }
 
 @media (max-width: 768px) {
-    /* 1. Hide desktop navigation */
-    .nav-links, .nav-cta {
-        display: none !important;
-    }
-
-    /* 2. Scale down the logo to match Xhawk's clean header */
+    /* 1. Hide desktop nav */
+    .nav-links, .nav-cta { display: none !important; }
     .brand-name { font-size: 1.4rem !important; }
     .verta-icon-hd { height: 50px !important; width: 45px !important; margin-right: -5px !important; }
-    nav { padding: 15px 5% !important; }
+    nav { padding: 15px 24px !important; }
 
-    /* 3. Add breathing room to the sides and scale down the massive text */
+    /* 2. Premium "Breathable" Spacing */
     .hero { 
-        padding: 120px 7% 40px !important; 
+        padding: 120px 24px 60px !important; 
+        box-sizing: border-box !important;
     }
-    .trust-badge { 
-        font-size: 0.8rem !important; 
-        padding: 6px 15px !important; 
-        margin-bottom: 20px !important; 
-    }
-    .hero h1 { 
-        font-size: 2.2rem !important; 
-        line-height: 1.2 !important; 
-        margin-bottom: 15px !important; 
-    }
-    .hero p { 
-        font-size: 1rem !important; 
-        margin-bottom: 30px !important; 
-        padding: 0 5px !important;
-    }
+    .hero h1 { font-size: 1.9rem !important; line-height: 1.25 !important; margin-bottom: 20px !important; }
+    .hero p { font-size: 1.05rem !important; line-height: 1.7 !important; margin-bottom: 40px !important; padding: 0 !important; }
 
-    /* 4. Keep the waitlist and error box fixes */
-    #toast-error:not(.show),
-    #toast-success:not(.show),
-    .toast-notification:not(.show) {
-        display: none !important;
-    }
-    
+    /* 3. Fix the Waitlist Box */
     .waitlist-module {
         flex-direction: column !important;
-        padding: 15px !important;
+        padding: 24px !important;
+        width: 100% !important;
+        max-width: 100% !important; 
+        box-sizing: border-box !important;
+        margin: 0 auto !important;
     }
     .waitlist-module input, .waitlist-module button {
         width: 100% !important;
         margin-top: 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 4. Fix the "Access Granted" Overflow */
+    #registered-state { width: 100% !important; box-sizing: border-box !important; padding: 0 !important; }
+    .success-msg-main { flex-direction: column !important; text-align: center !important; gap: 12px !important; font-size: 0.95rem !important; line-height: 1.5 !important; }
+    .success-msg-main svg { margin-right: 0 !important; }
+    .jump-line-cta { width: 100% !important; box-sizing: border-box !important; margin-top: 20px !important; font-size: 0.9rem !important; line-height: 1.5 !important; }
+
+    /* 5. Nuke the error toast from stretching the screen */
+    #toast-error:not(.show), #toast-success:not(.show), .toast-notification:not(.show) {
+        display: none !important;
+    }
+
+    /* 6. FORCE EXPLANATIONS TO STACK BELOW TERMINALS */
+    .showcase-row, .showcase-row.reverse {
+        display: flex !important;
+        flex-direction: column !important; /* This forces the text underneath the picture */
+        gap: 20px !important;
+        margin-bottom: 60px !important;
+        padding: 0 !important;
+    }
+    .showcase-visual {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    .showcase-text {
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: left !important;
+        padding: 0 10px !important;
+        box-sizing: border-box !important;
+    }
+    .showcase-section, .features-wrapper {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
         box-sizing: border-box !important;
     }
 }
