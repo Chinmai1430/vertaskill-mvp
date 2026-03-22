@@ -50,7 +50,9 @@ app.post('/api/waitlist', async (req, res) => {
 
         // --- AUTOMATED WELCOME EMAIL ---
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true, // Forces a secure connection
             auth: {
                 user: process.env.EMAIL_USER, 
                 pass: process.env.EMAIL_PASS  
