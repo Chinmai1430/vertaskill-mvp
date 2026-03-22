@@ -5,6 +5,10 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
+// Force Node to use IPv4 to fix Render's ENETUNREACH email bug
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
+
 const app = express();
 
 // --- MIDDLEWARE ---
