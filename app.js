@@ -31,9 +31,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const waitlistNumberDisplay = document.getElementById("waitlist-number");
     const surveyModal = document.getElementById("survey-modal");
 
+    // Check if already registered on this device when they refresh the page
     if (localStorage.getItem("vertaSkillRegistered") === "true") {
         form.style.display = "none";
-        const savedPosition = localStorage.getItem("vertaSkillPosition") || "142";
+        // REMOVED the hardcoded 142 bug here:
+        const savedPosition = localStorage.getItem("vertaSkillPosition") || "..."; 
         if (waitlistNumberDisplay) waitlistNumberDisplay.innerText = savedPosition;
         if (registeredState) registeredState.style.display = "flex";
     }
@@ -48,7 +50,8 @@ document.addEventListener("DOMContentLoaded", function() {
         btn.disabled = true;
 
         try {
-            const response = await fetch('https://vertaskill-mvp.onrender.com/api/waitlist', {
+            // Using relative path for perfect Render integration
+            const response = await fetch('/api/waitlist', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: emailValue })
@@ -56,30 +59,39 @@ document.addEventListener("DOMContentLoaded", function() {
             
             let data = await response.json().catch(() => ({}));
 
-            // 201 = New Success, 400 or 409 = Already Registered
-            if (response.status === 201 || response.status === 400 || response.status === 409) {
+            // 201 = Brand New Registration Success
+            if (response.status === 201) {
+                // Save to local storage so it remembers them
                 localStorage.setItem("vertaSkillRegistered", "true");
-                if(data.position) localStorage.setItem("vertaSkillPosition", data.position);
                 
-                if (waitlistNumberDisplay) waitlistNumberDisplay.innerText = data.position || localStorage.getItem("vertaSkillPosition");
+                // Inject the LIVE number from MongoDB
+                if(data.position) {
+                    localStorage.setItem("vertaSkillPosition", data.position);
+                    if (waitlistNumberDisplay) waitlistNumberDisplay.innerText = data.position;
+                }
                 
                 form.reset(); 
                 form.style.display = 'none';
                 if (registeredState) registeredState.style.display = 'flex';
 
-                if(response.status === 201) {
-                    showToast('success', 'Registration Successful!');
-                    if (surveyModal) setTimeout(() => { surveyModal.classList.add('show'); }, 500); 
-                } else {
-                    showToast('error', 'You are already on the waitlist!');
-                }
+                showToast('success', 'Registration Successful!');
+                if (surveyModal) setTimeout(() => { surveyModal.classList.add('show'); }, 500); 
 
+            // 400 = Already Registered Error
+            } else if (response.status === 400 || response.status === 409) {
+                showToast('error', 'This email is already on the waitlist!');
+                btn.innerText = originalText;
+                btn.disabled = false;
+                
+            // 429 = Rate Limit Error
             } else if (response.status === 429) {
                 showToast('error', 'Too many attempts. Try again later.');
                 btn.innerText = originalText;
                 btn.disabled = false;
+                
+            // Any other server errors
             } else {
-                showToast('error', 'Oops! Server error. Try again.');
+                showToast('error', data.message || 'Oops! Server error. Try again.');
                 btn.innerText = originalText;
                 btn.disabled = false;
             }
@@ -110,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function generateCircuitBoard() {
         paths = []; dataPackets = [];
         
-        // FIX 1: Dynamically scale lines! Desktop gets ~90 lines, mobile gets ~20.
+        // Dynamically scale lines! Desktop gets ~90 lines, mobile gets ~20.
         let numLines = Math.floor(window.innerWidth / 50); 
         
         for(let i = 0; i < numLines; i++) {
@@ -150,7 +162,6 @@ document.addEventListener("DOMContentLoaded", function() {
     function animate() {
         ctx.clearRect(0, 0, width, height);
         
-        // FIX 2: Increased opacity from 0.15 to 0.35 so it's visible on desktop!
         ctx.strokeStyle = 'rgba(59, 130, 246, 0.35)'; 
         ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
         
