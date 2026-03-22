@@ -59,17 +59,25 @@ app.post('/api/waitlist', async (req, res) => {
 
         const mailOptions = {
             from: `"VertaSkill" <${process.env.EMAIL_USER}>`,
-            to: email, // Sends directly to the user who just signed up
-            subject: 'Access Granted: Welcome to the VertaSkill Waitlist 🚀',
+            to: email, 
+            subject: 'Welcome to VertaSkill | Your Waitlist Status',
             html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #1e293b; border-radius: 10px; background-color: #0f172a; color: #cbd5e1;">
-                    <h2 style="color: #38bdf8; text-align: center; margin-bottom: 20px;">VertaSkill</h2>
-                    <p style="font-size: 16px;">Hey there,</p>
-                    <p style="font-size: 16px;">You are officially on the list. You are currently <strong>#${totalCount}</strong> in line.</p>
-                    <p style="font-size: 16px; line-height: 1.6;">We are building the global standard for peer-to-peer skill trading. No more wasting hours explaining your codebase on Zoom.</p>
-                    <p style="font-size: 16px;">We will notify you the exact second your beta access opens up.</p>
-                    <hr style="border-color: #334155; margin: 30px 0;">
-                    <p style="font-size: 14px; color: #94a3b8; text-align: center;">Keep building,<br><strong>The VertaSkill Team</strong></p>
+                <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #1e293b; border-radius: 8px; background-color: #0f172a; color: #cbd5e1;">
+                    <h2 style="color: #38bdf8; border-bottom: 1px solid #1e293b; padding-bottom: 15px; margin-bottom: 20px; font-weight: 600; letter-spacing: 0.5px;">VertaSkill</h2>
+                    
+                    <p style="font-size: 16px; line-height: 1.6; color: #f8fafc;">Hello,</p>
+                    
+                    <p style="font-size: 16px; line-height: 1.6;">Welcome to the VertaSkill network. Your spot is officially secured, and you are currently <strong>#${totalCount}</strong> on our early access waitlist.</p>
+                    
+                    <p style="font-size: 16px; line-height: 1.6;">We are building the global standard for peer-to-peer technical collaboration. Our zero-fiat ecosystem allows developers and founders to trade engineering output for the specialized help they need, backed by AI-driven context sharing and secure, real-time execution environments.</p>
+                    
+                    <p style="font-size: 16px; line-height: 1.6;">We are currently rolling out beta access in batches to ensure network stability. We will notify you directly at this email address the moment your workspace is ready to be initialized.</p>
+                    
+                    <br>
+                    <p style="font-size: 16px; line-height: 1.6; color: #f8fafc;">Keep building,<br><strong>The VertaSkill Team</strong></p>
+                    
+                    <hr style="border-top: 1px solid #1e293b; margin: 30px 0;">
+                    <p style="font-size: 12px; color: #475569; text-align: center;">You are receiving this email because you registered for the VertaSkill waitlist. If you have any questions, simply reply to this email.</p>
                 </div>
             `
         };
