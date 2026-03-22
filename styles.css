@@ -421,100 +421,6 @@ nav {
     max-width: 1000px; margin: 0 auto; padding: 80px 40px; background: rgba(15, 23, 42, 0.7);
     border: 1px solid rgba(51, 65, 85, 0.6); border-radius: 24px; text-align: center; backdrop-filter: blur(12px);
     position: relative; z-index: 20; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-
-    /* Force hide toasts on all screens unless triggered */
-#toast-success:not(.show),
-#toast-error:not(.show) {
-    display: none !important;
-}
-
-/* ========================================= */
-/* THE ULTIMATE MOBILE FIX                   */
-/* ========================================= */
-
-/* 1. Stop the screen from scrolling sideways */
-html, body {
-    overflow-x: hidden !important;
-    width: 100%;
-    max-width: 100vw;
-}
-
-@media (max-width: 768px) {
-    /* 2. Hide the top nav links on mobile so they don't stretch the screen */
-    .nav-links, .nav-cta {
-        display: none !important;
-    }
-
-    /* 3. Nuke the toast notification off the screen completely unless active */
-    .toast-notification:not(.show) {
-        display: none !important;
-        right: -200vw !important;
-    }
-}
-
-/* ========================================= */
-/* XHAWK-STYLE FLUID MOBILE RESPONSIVE FIX   */
-/* ========================================= */
-
-/* 1. Strictly prevent the horizontal scroll/stretch glitch */
-html, body {
-    overflow-x: hidden !important;
-    width: 100%;
-    max-width: 100vw;
-}
-
-@media (max-width: 768px) {
-    /* 2. Optimize Hero spacing so it doesn't push content off-screen */
-    .hero { 
-        padding: 110px 5% 40px !important; 
-    }
-    
-    /* 3. Scale down massive typography for mobile readability */
-    .hero h1 { 
-        font-size: 2.6rem !important; 
-        line-height: 1.15 !important; 
-    }
-    .hero p { 
-        font-size: 1.05rem !important; 
-        margin-bottom: 30px !important;
-    }
-
-    /* 4. Hide desktop nav links cleanly (SaaS standard) */
-    .nav-links, .nav-cta {
-        display: none !important; 
-    }
-    nav { padding: 15px 5% !important; }
-
-    /* 5. Reflow the Waitlist Module to stack input and button */
-    .waitlist-module { 
-        flex-direction: column; 
-        padding: 15px !important;
-        border-radius: 16px !important;
-        background: rgba(15, 23, 42, 0.8) !important;
-    }
-    .waitlist-module input { 
-        width: 100%; 
-        text-align: center;
-        padding: 12px !important;
-    }
-    .waitlist-module button { 
-        width: 100%; 
-        margin-top: 12px;
-        padding: 14px !important;
-    }
-
-    /* 6. Completely nuke the red error icon off-screen unless triggered */
-    .toast-notification:not(.show) {
-        display: none !important;
-    }
-    .toast-notification {
-        width: 90% !important;
-        left: 5% !important;
-        right: auto !important; /* Override desktop right-alignment */
-        top: 20px !important;
-        justify-content: center;
-        text-align: center;
-    }
 }
 
 /* ========================================= */
@@ -551,6 +457,4 @@ html, body {
         margin-top: 10px !important;
         box-sizing: border-box !important;
     }
-}
-
 }
