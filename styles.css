@@ -517,4 +517,40 @@ html, body {
     }
 }
 
+/* ========================================= */
+/* PERFECT MOBILE LAYOUT FIX                 */
+/* ========================================= */
+
+/* 1. Lock screen width to permanently stop sideways scrolling */
+html, body {
+    overflow-x: hidden !important;
+    width: 100%;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    /* 2. Hide top navigation options (Architecture, Security, Join Waitlist) */
+    .nav-links, .nav-cta {
+        display: none !important;
+    }
+
+    /* 3. Force the red error box to disappear completely so it cannot stretch the screen */
+    #toast-error:not(.show),
+    #toast-success:not(.show),
+    .toast-notification:not(.show) {
+        display: none !important;
+    }
+    
+    /* 4. Make the waitlist form stack cleanly like a native app */
+    .waitlist-module {
+        flex-direction: column !important;
+        padding: 15px !important;
+    }
+    .waitlist-module input, .waitlist-module button {
+        width: 100% !important;
+        margin-top: 10px !important;
+        box-sizing: border-box !important;
+    }
+}
+
 }
